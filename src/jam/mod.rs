@@ -1,2 +1,2 @@
 pub mod gemtext;
-pub mod jammarkup;
+//pub mod jamup;

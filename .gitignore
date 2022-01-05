@@ -1,1 +1,3 @@
 /target
+jam.toml
+/src/jam/_*/*
