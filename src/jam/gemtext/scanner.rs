@@ -164,39 +164,30 @@ impl GemScanner {
     }
 }
 
-
 #[cfg(test)]
-mod tests{
+mod tests {
 
     use super::*;
     pub trait Anytype {
         fn type_name(&self) -> &'static str;
     }
 
-    impl<T> Anytype for T{
-        
+    impl<T> Anytype for T {
         fn type_name(&self) -> &'static str {
             std::any::type_name::<T>()
         }
-
     }
 
     #[test]
-    fn test_header_1(){
-        
+    fn test_header_1() {
         let input = String::from("# header one");
 
         let mut test_scanner = GemScanner::new(input);
         test_scanner.scan_tokens();
         let tokens = test_scanner.get_tokens();
         //assert_eq!(tokens[0]._type. , );
-        assert_eq!(tokens.len() , 1);
+        assert_eq!(tokens.len(), 1);
         //assert_eq!(, GemTextTokenType::Heading { level , text })
         //assert!()
-
-
     }
-
-
-
 }

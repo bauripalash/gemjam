@@ -1,39 +1,13 @@
-//use gemjam::jam::gemtext::scanner::GemScanner;
-//use gemjam::jam::gemtext::transformer::GemTransformer;
-//use toml::to_string;
-//use std::{path::{self, PathBuf}, str::FromStr};
+use gemjam::jam::utils::conf_reader::Config;
+use yaml_rust::Yaml;
+use gemjam::jam::builder::structure::StructureBuilder;
+use std::collections::HashMap;
+use std::path::PathBuf;
+
 fn main() {
-    let _x_ = "
-    # header_one world are you this is very fun to work with
-    #### this is a very good job we have done
-        hello
-    i think it is a mango
-    ## header_two
-    ### header_three
-    * list_one
-    * list_two
+    let hm : HashMap<String , String> = HashMap::new(); 
+    let mut s = StructureBuilder::config(hm, PathBuf::from(r"/home/palash/gemjam/myjam/polu/") ,  PathBuf::from(r"/home/palash/gemjam/myjam/log/") , PathBuf::from(r"/home/palash/gemjam/myjam/polu/templates/"));
 
+    s.render_posts();
 
-    ```rust
-    hello world
-    mew
-    mew
-    pew
-    ``` 
-    => https://palashbauri.in hello
-    => https://google.com
-    > this is quote
-    ";
-    //let s = String::from(_x_);
-    //let mut gs = GemScanner::new(s);
-    //gs.scan_tokens();
-    //gs.print_tokens();
-    //let mut t = GemTransformer::new(gs.get_tokens());
-    //t.transform();
-    //
-    //let mut pwd = PathBuf::from(&std::env::current_dir().unwrap_or(PathBuf::from_str("./").unwrap())); 
-    //let conf_file = PathBuf::from("jam.toml");
-    //pwd.push(conf_file);
-    //let conf_raw = toml::map::Map{ map : std::fs::read_to_string(pwd)}; 
-    
 }
