@@ -3,9 +3,60 @@ pub mod jam;
 use jam::*;
 use std::collections::HashMap;
 use std::fs;
-use std::path::Path;
+
+use std::env;
 use std::{path::PathBuf, process::exit};
 use yaml_rust::{Yaml, YamlLoader};
+
+pub fn new_site(_n: String) {
+    //TODO
+    println!("Creating new site");
+}
+
+pub fn new_post(_n: String) {
+    //TODO
+    println!("Creating new post");
+}
+
+pub fn build_site(site_path: Option<&PathBuf>) {
+    if site_path.is_some() {
+        let sp = if site_path.unwrap().is_relative() {
+            let x =
+                PathBuf::from(&env::current_dir().unwrap().to_path_buf()).join(site_path.unwrap());
+            if !x.exists() {
+                println!("Your specified directory `{}` doesnot exist", x.display());
+                exit(1);
+            }
+
+            x
+        } else {
+            site_path.unwrap().to_path_buf()
+        };
+
+        if sp.join("jam.yaml").exists() {
+            println!("Building site from '{}'", sp.display());
+            let x = MakeJam::newjar(sp.to_path_buf());
+            x.rocknroll();
+        } else {
+            println!("Cannot find a \"jam.yaml\" file in {}.", sp.display());
+            println!("Please create a \"jam.yaml\" file to build your site");
+            println!("or easy create a new site with `gemjam site <SITENAME>`");
+            exit(1);
+        }
+    } else {
+        let mut sp = PathBuf::new();
+        sp.push(env::current_dir().unwrap());
+        if sp.join("jam.yaml").exists() {
+            println!("Building site from '{}'", sp.display());
+            let x = MakeJam::newjar(sp);
+            x.rocknroll();
+        } else {
+            println!("Cannot find a \"jam.yaml\" file in current directory => {}.\nPlease create a jam.yaml to build your site." , sp.display());
+            println!("You may want to use `gemjam site <SITENAME>` to create a new gemlog");
+            exit(1);
+        }
+    }
+}
 
 pub fn get_config(p: &PathBuf) -> Yaml {
     let _p = p.join("jam.yaml");
@@ -143,7 +194,10 @@ impl MakeJam {
             panic!();
         };
 
-        let posts_entry = self.working_dir.join(&template_dir_str).join(posts_entry_str);
+        let posts_entry = self
+            .working_dir
+            .join(&template_dir_str)
+            .join(posts_entry_str);
 
         if !posts_entry.exists() {
             eprintln!(

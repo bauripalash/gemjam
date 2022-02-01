@@ -1,18 +1,27 @@
-//use std::path::PathBuf;
-//use gemjam::jam::builder::structure::StructureBuilder;
-//use gemjam::jam::utils::conf_reader::Config;
-//use std::collections::HashMap;
-//use std::path::PathBuf;
-//use yaml_rust::Yaml;
-use clap::{App, Arg};
-use gemjam::MakeJam;
-use std::env;
+use clap::{arg, App, AppSettings, Arg};
+
+use gemjam::build_site;
+
 use std::path::PathBuf;
 fn main() {
     let jam_args = App::new("GemJam")
         .version("0.1")
         .author("Palash Bauri <palashbauri1@gmail.com>")
         .about("simple and kinda fast gemlog maker!")
+        .subcommand(
+            App::new("post")
+                .about("New post")
+                .arg(arg!(<NAME> "New post title"))
+                .setting(AppSettings::SubcommandsNegateReqs)
+                .setting(AppSettings::SubcommandPrecedenceOverArg),
+        )
+        .subcommand(
+            App::new("site")
+                .about("New Gemblog site")
+                .arg(arg!(<NAME> "Name of the site"))
+                .setting(AppSettings::SubcommandsNegateReqs)
+                .setting(AppSettings::SubcommandPrecedenceOverArg),
+        )
         .arg(
             Arg::new("config")
                 .short('c')
@@ -21,32 +30,29 @@ fn main() {
                 .required(false)
                 .help("Directory where jam.yaml file can be found"),
         )
+        .arg(
+            Arg::new("version")
+                .short('v')
+                .long("version")
+                .takes_value(false)
+                .required(false)
+                .help("show version information"),
+        )
         .get_matches();
-    println!(
-        "config file => {}",
-        jam_args.value_of("config").unwrap_or("t")
-    );
-    let mut m = PathBuf::new();
+    match jam_args.subcommand() {
+        Some(("post", sub_m)) => println!("I think I have to create a new post {:?}", sub_m),
+        Some(("site", sub_m)) => {
+            println!("I have to create a new gemblog site {:?}", sub_m)
+        }
+        _ => {
+            if jam_args.is_present("config") {
+                let mut site_path = PathBuf::new();
+                site_path.push(jam_args.value_of("config").unwrap());
 
-    m.push(env::current_dir().unwrap());
-    m.push("myjam");
-    //m.push("jam.yaml");
-    println!("{}", m.display());
-    let x = MakeJam::newjar(m);
-    x.rocknroll();
-    //
-
-    //let working_dir : PathBuf = PathBuf::from(jam_args.value_of("config").unwrap_or("./"));
-
-    //println!("{:?}" , env::current_dir().unwrap());
-
-    //let hm: HashMap<String, String> = HashMap::new();
-    //let mut s = StructureBuilder::config(
-    //    hm,
-    //    PathBuf::from(r"/home/palash/gemjam/myjam/polu/"),
-    //    PathBuf::from(r"/home/palash/gemjam/myjam/log/"),
-    //    PathBuf::from(r"/home/palash/gemjam/myjam/polu/templates/"),
-    //);
-
-    //s.render_posts();
+                build_site(Some(&site_path));
+            } else {
+                build_site(None)
+            }
+        }
+    }
 }
