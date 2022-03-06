@@ -58,6 +58,7 @@ pub fn build_site(site_path: Option<&PathBuf>) {
     }
 }
 
+
 pub fn get_config(p: &PathBuf) -> Yaml {
     let _p = p.join("jam.yaml");
     let raw = fs::read_to_string(_p).unwrap();

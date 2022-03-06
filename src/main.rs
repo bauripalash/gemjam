@@ -40,9 +40,9 @@ fn main() {
         )
         .get_matches();
     match jam_args.subcommand() {
-        Some(("post", sub_m)) => println!("I think I have to create a new post {:?}", sub_m),
+        Some(("post", sub_m)) => println!("I think I have to create a new post {:?}", sub_m), //TODO: Create new post
         Some(("site", sub_m)) => {
-            println!("I have to create a new gemblog site {:?}", sub_m)
+            println!("I have to create a new gemblog site {:?}", sub_m) //TODO: Create new gemlog
         }
         _ => {
             if jam_args.is_present("config") {

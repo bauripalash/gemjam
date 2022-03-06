@@ -5,6 +5,8 @@ pub struct GemTransformer {
     pub html_list: Vec<String>,
 }
 
+// Gemtext -> HTML converter
+// TODO: Add option to build html version gemlog
 impl GemTransformer {
     pub fn new(item_list: Vec<GemTextToken>) -> GemTransformer {
         Self {

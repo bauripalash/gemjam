@@ -45,6 +45,8 @@ pub struct GemScanner {
     item_list: Vec<GemTextToken>,
 }
 
+// Gemtext Parser
+
 impl GemScanner {
     pub fn new(source: String) -> GemScanner {
         Self {
