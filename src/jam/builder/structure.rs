@@ -9,8 +9,7 @@ use std::path::*;
 // index.gmi -> index page >> where the post indexting will happen
 // header.gmi -> will be pasted at the top of the index.gmi file
 // footer.gmi -> botom
-// vivekananda vs kal marx -> mitri koutillo
-// vivekananda er biplab bad
+
 //
 
 lazy_static! {
