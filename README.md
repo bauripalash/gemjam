@@ -1,3 +1,4 @@
+![](https://repository-images.githubusercontent.com/466636357/635c8327-2ad8-467a-b959-e4a3f5928c90)
 # GemJam 
 > A simple and fast gemlog builder (Prototype)
 
